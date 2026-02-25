@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Future Dashboard | FutureMe</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Navigation -->
+    <nav class="navbar glass">
+        <div class="logo">
+            <i class="fa-solid fa-compass"></i>
+            <span>FutureMe</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="btn btn-outline btn-sm"><i class="fa-solid fa-rotate-left"></i> Retake Assessment</a>
+        </div>
+    </nav>
+
+    <!-- Background Effects -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <main class="dashboard-container slide-up">
+
+        <header class="dashboard-header">
+            <h1 class="gradient-text">Your Tailored Career Paths</h1>
+            <p>Based on our AI analysis of your unique profile, here are the top 3 careers where you would thrive,
+                complete with actionable roadmaps.</p>
+        </header>
+
+        <!-- Container for dynamically injected AI results -->
+        <div id="results-container" class="careers-grid">
+            <!-- Results will be injected here by app.js -->
+        </div>
+
+        <!-- Error State (Hidden by default) -->
+        <div id="error-container" class="error-container glass-card hidden">
+            <i class="fa-solid fa-triangle-exclamation error-icon"></i>
+            <h2>Oops! Something went wrong.</h2>
+            <p id="error-message">We couldn't generate your recommendations. Please try again.</p>
+            <a href="/" class="btn btn-primary">Go Back</a>
+        </div>
+
+    </main>
+
+    <!-- Template for a Career Card (Hidden, used by JS for cloning) -->
+    <template id="career-card-template">
+        <div class="career-card glass-card">
+            <div class="card-header-flex">
+                <h2 class="career-title"></h2>
+                <div class="match-score-badge"><i class="fa-solid fa-fire"></i> <span class="score-value"></span></div>
+            </div>
+
+            <p class="career-description"></p>
+
+            <div class="roadmap-section">
+                <h3><i class="fa-solid fa-route"></i> Your Roadmap</h3>
+                <ul class="roadmap-list">
+                    <!-- Steps injected here -->
+                </ul>
+            </div>
+
+            <div class="card-footer">
+                <a href="#" class="btn btn-outline btn-full">Explore Resources <i
+                        class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // Inline script to handle Dashboard population upon loading
+        document.addEventListener('DOMContentLoaded', () => {
+            const resultsContainer = document.getElementById('results-container');
+            const errorContainer = document.getElementById('error-container');
+            const errorMessage = document.getElementById('error-message');
+            const template = document.getElementById('career-card-template');
+
+            // Retrieve AI analysis from sessionStorage
+            const analysisDataStr = sessionStorage.getItem('futureMe_ai_analysis');
+
+            if (!analysisDataStr) {
+                // If there's no data, show an error and prompt them to take the quiz
+                errorContainer.classList.remove('hidden');
+                errorMessage.innerText = "No career data found. Please complete the assessment first.";
+                return;
+            }
+
+            try {
+                const results = JSON.parse(analysisDataStr);
+
+                // Clear the container
+                resultsContainer.innerHTML = '';
+
+                // Check if results is an array (expected format from AI)
+                if (Array.isArray(results)) {
+                    results.forEach((career, index) => {
+                        const clone = template.content.cloneNode(true);
+
+                        // Populate Data
+                        clone.querySelector('.career-title').textContent = career.title;
+                        clone.querySelector('.score-value').textContent = career.match_score || "95%";
+                        clone.querySelector('.career-description').textContent = career.description;
+
+                        const ul = clone.querySelector('.roadmap-list');
+                        if (career.roadmap && Array.isArray(career.roadmap)) {
+                            career.roadmap.forEach((step, stepIdx) => {
+                                const li = document.createElement('li');
+                                // Create the step node visually
+                                li.innerHTML = `
+                                    <div class="step-node">${stepIdx + 1}</div>
+                                    <div class="step-content">${step}</div>
+                                `;
+                                ul.appendChild(li);
+                            });
+                        }
+
+                        // Set the dynamic Explore Resources link
+                        const exploreBtn = clone.querySelector('.btn-full');
+                        if (career.resource_link) {
+                            exploreBtn.href = career.resource_link;
+                            exploreBtn.target = "_blank"; // Open in new tab
+                            exploreBtn.rel = "noopener noreferrer"; // Security best practice
+                        } else {
+                            // Fallback if the AI fails to generate a link
+                            exploreBtn.href = `https://www.google.com/search?q=how+to+become+a+${encodeURIComponent(career.title)}`;
+                            exploreBtn.target = "_blank";
+                        }
+
+                        resultsContainer.appendChild(clone);
+                    });
+                } else if (results.error) {
+                    // The backend returned an error JSON
+                    errorContainer.classList.remove('hidden');
+                    errorMessage.innerText = results.error;
+                } else {
+                    throw new Error("Unexpected data format returned from AI.");
+                }
+
+            } catch (error) {
+                console.error("Error parsing analysis data:", error);
+                errorContainer.classList.remove('hidden');
+                errorMessage.innerText = "There was a problem preparing your dashboard. Please try taking the quiz again. Error: " + error.message;
+            }
+        });
+    </script>
+</body>
+
+</html>
