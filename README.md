@@ -20,15 +20,6 @@ Backend: Python, Flask\
 AI: Hugging Face Inference API (Mistral-7B)\
 Environment Management: python-dotenv
 
-## ⚙️ Setup
-
-1.  Install dependencies: pip install -r requirements.txt
-
-2.  Create a `.env` file: HUGGINGFACE_API_KEY=your_api_key_here
-
-3.  Run the app: python app.py
-
-Open in browser: http://localhost:5000
 
 ------------------------------------------------------------------------
 
