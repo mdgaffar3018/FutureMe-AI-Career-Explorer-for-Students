@@ -20,14 +20,14 @@
     
     <!-- Navigation -->
     <nav class="navbar glass">
-        <div class="logo">
+        <div class="logo" onclick="window.location.href='/'">
             <i class="fa-solid fa-compass"></i>
             <span>FutureMe</span>
         </div>
         <div class="nav-links">
             <a href="#about">About</a>
             <a href="#features">Features</a>
-            <button class="btn btn-outline" onclick="startAssessment()">Explore Now</button>
+            <a href="/quiz" class="btn btn-outline">Explore Now</a>
         </div>
     </nav>
 
@@ -41,14 +41,14 @@
         <!-- Hero Section -->
         <section id="hero-section" class="hero slide-up">
             <div class="hero-content">
-                <div class="badge">Powered by Open Source AI <i class="fa-solid fa-bolt"></i></div>
+                <div class="badge">Powered by Google Gemini 2.5 Flash <i class="fa-solid fa-bolt"></i></div>
                 <h1 class="gradient-text">Discover Your True Calling</h1>
                 <p>Not sure what to do after graduation? Let our advanced AI analyze your unique strengths, passions, and work style to map out the perfect career path tailored just for you.</p>
                 
                 <div class="hero-actions">
-                    <button class="btn btn-primary btn-glow" onclick="startAssessment()">
+                    <a href="/quiz" class="btn btn-primary btn-glow">
                         Start Free Assessment <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+                    </a>
                 </div>
             </div>
             
@@ -80,184 +80,73 @@
             </div>
         </section>
 
-        <!-- Assessment Quiz Section (Initially Hidden) -->
-        <section id="assessment-section" class="assessment hidden">
-            
-            <!-- Progress Bar -->
-            <div class="progress-container glass">
-                <div class="progress-bar" id="progress-bar"></div>
-                <div class="progress-text">Step <span id="current-step-display">1</span> of 4</div>
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="section-header">
+                <div class="badge">How It Works <i class="fa-solid fa-gears"></i></div>
+                <h2 class="gradient-text">Empowering Your Career Journey</h2>
+                <p class="section-subtitle">FutureMe leverages advanced generative artificial intelligence and custom profile-mapping to match you with career paths where you'll genuinely thrive.</p>
             </div>
             
-            <div class="quiz-container glass-card">
-                
-                <!-- Step 1: Interests -->
-                <div class="quiz-step active" id="step-1">
-                    <h2>What subjects or activities excite you the most?</h2>
-                    <p class="subtitle">Select up to 3</p>
-                    
-                    <div class="options-grid multi-select" id="interests-grid">
-                        <div class="option-card" data-value="Coding">
-                            <i class="fa-solid fa-code"></i>
-                            <span>Coding / Tech</span>
-                        </div>
-                        <div class="option-card" data-value="Design">
-                            <i class="fa-solid fa-pen-nib"></i>
-                            <span>Art & Design</span>
-                        </div>
-                        <div class="option-card" data-value="Writing">
-                            <i class="fa-solid fa-feather"></i>
-                            <span>Writing / Media</span>
-                        </div>
-                        <div class="option-card" data-value="Science">
-                            <i class="fa-solid fa-flask"></i>
-                            <span>Science / Biology</span>
-                        </div>
-                        <div class="option-card" data-value="Math">
-                            <i class="fa-solid fa-calculator"></i>
-                            <span>Math / Logic</span>
-                        </div>
-                        <div class="option-card" data-value="Business">
-                            <i class="fa-solid fa-briefcase"></i>
-                            <span>Business / Finance</span>
-                        </div>
-                         <div class="option-card" data-value="Helping People">
-                            <i class="fa-solid fa-hands-holding-child"></i>
-                            <span>Helping People</span>
-                        </div>
-                        <div class="option-card" data-value="Building Things">
-                            <i class="fa-solid fa-hammer"></i>
-                            <span>Building / Hands-on</span>
-                        </div>
-                    </div>
-                    
-                    <div class="step-actions right">
-                        <button class="btn btn-primary" onclick="nextStep(1)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
+            <div class="about-grid">
+                <div class="glass-card about-card">
+                    <div class="about-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3>Cognitive Matching</h3>
+                    <p>Instead of just checking your grades, our AI analyzes your cognitive preferences, interest groups, work environment tendencies, and values.</p>
                 </div>
-
-                <!-- Step 2: Strengths -->
-                <div class="quiz-step hidden" id="step-2">
-                    <h2>What are you naturally good at?</h2>
-                    <p class="subtitle">Select up to 3</p>
-                    
-                    <div class="options-grid multi-select" id="strengths-grid">
-                        <div class="option-card" data-value="Problem Solving">
-                            <i class="fa-solid fa-puzzle-piece"></i>
-                            <span>Problem Solving</span>
-                        </div>
-                        <div class="option-card" data-value="Communication">
-                            <i class="fa-solid fa-comments"></i>
-                            <span>Communication</span>
-                        </div>
-                        <div class="option-card" data-value="Creativity">
-                            <i class="fa-solid fa-lightbulb"></i>
-                            <span>Creativity</span>
-                        </div>
-                        <div class="option-card" data-value="Organization">
-                            <i class="fa-solid fa-list-check"></i>
-                            <span>Organization</span>
-                        </div>
-                        <div class="option-card" data-value="Leadership">
-                            <i class="fa-solid fa-crown"></i>
-                            <span>Leadership</span>
-                        </div>
-                        <div class="option-card" data-value="Analyzing Data">
-                            <i class="fa-solid fa-chart-line"></i>
-                            <span>Analyzing Data</span>
-                        </div>
-                    </div>
-                    
-                    <div class="step-actions split">
-                        <button class="btn btn-outline" onclick="prevStep(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                        <button class="btn btn-primary" onclick="nextStep(2)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
+                <div class="glass-card about-card">
+                    <div class="about-icon"><i class="fa-solid fa-route"></i></div>
+                    <h3>Milestone Roadmaps</h3>
+                    <p>We don't just tell you what career to pursue; we give you a concrete, step-by-step roadmap starting today to help you land your dream job.</p>
                 </div>
-
-                <!-- Step 3: Work Style -->
-                <div class="quiz-step hidden" id="step-3">
-                    <h2>What's your preferred work environment?</h2>
-                    <p class="subtitle">Select 1</p>
-                    
-                    <div class="options-grid single-select" id="work-style-grid">
-                        <div class="option-card" data-value="Remote Solo">
-                            <i class="fa-solid fa-house-laptop"></i>
-                            <span>Remote / Solo Focus</span>
-                        </div>
-                        <div class="option-card" data-value="Collaborative Office">
-                            <i class="fa-solid fa-users"></i>
-                            <span>Collaborative Team</span>
-                        </div>
-                        <div class="option-card" data-value="Outdoor/On-site">
-                            <i class="fa-solid fa-tree"></i>
-                            <span>Outdoor / On-site</span>
-                        </div>
-                        <div class="option-card" data-value="Fast-paced Startup">
-                            <i class="fa-solid fa-rocket"></i>
-                            <span>Fast-paced / Dynamic</span>
-                        </div>
-                    </div>
-                    
-                    <div class="step-actions split">
-                        <button class="btn btn-outline" onclick="prevStep(3)"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                        <button class="btn btn-primary" onclick="nextStep(3)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
+                <div class="glass-card about-card">
+                    <div class="about-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                    <h3>Direct Resource Search</h3>
+                    <p>Every career option features search queries to access beginner-friendly tutorials, courses, and documentation instantly.</p>
                 </div>
-
-                <!-- Step 4: Values -->
-                <div class="quiz-step hidden" id="step-4">
-                    <h2>What matters most to you in a career?</h2>
-                    <p class="subtitle">Select up to 2</p>
-                    
-                    <div class="options-grid multi-select" id="values-grid">
-                        <div class="option-card" data-value="High Income">
-                            <i class="fa-solid fa-sack-dollar"></i>
-                            <span>High Income</span>
-                        </div>
-                        <div class="option-card" data-value="Work-Life Balance">
-                            <i class="fa-solid fa-scale-balanced"></i>
-                            <span>Work-Life Balance</span>
-                        </div>
-                        <div class="option-card" data-value="Making an Impact">
-                            <i class="fa-solid fa-earth-americas"></i>
-                            <span>Making an Impact</span>
-                        </div>
-                         <div class="option-card" data-value="Job Security">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            <span>Job Security</span>
-                        </div>
-                        <div class="option-card" data-value="Continuous Learning">
-                            <i class="fa-solid fa-book-open"></i>
-                            <span>Continuous Learning</span>
-                        </div>
-                        <div class="option-card" data-value="Creative Freedom">
-                            <i class="fa-solid fa-palette"></i>
-                            <span>Creative Freedom</span>
-                        </div>
-                    </div>
-                    
-                    <div class="step-actions split">
-                        <button class="btn btn-outline" onclick="prevStep(4)"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                        <button class="btn btn-primary btn-glow" onclick="submitAssessment()">
-                            Generate Dashboard <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        </button>
-                    </div>
-                </div>
-
             </div>
         </section>
 
-        <!-- Loading Overlay (Visible during API call) -->
-        <div id="loading-overlay" class="loading-overlay hidden">
-            <div class="loader-content">
-                <div class="spinner"></div>
-                <h2 class="gradient-text">AI is Architecting Your Future...</h2>
-                <p id="loading-text">Analyzing interests and strengths...</p>
+        <!-- Features Section -->
+        <section id="features" class="features-section" style="margin-bottom: 5rem;">
+            <div class="section-header">
+                <div class="badge">Features <i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <h2 class="gradient-text">Designed for the Next Generation</h2>
+                <p class="section-subtitle">A modern, state-of-the-art interactive platform designed specifically for students planning their futures.</p>
             </div>
-        </div>
+            
+            <div class="features-container">
+                <div class="feature-item glass">
+                    <div class="feature-content">
+                        <h3><span class="step-num">01</span> Intelligent Assessment</h3>
+                        <p>A beautiful, step-by-step quiz that breaks down your core traits into actionable parameters without overwhelming you.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item glass">
+                    <div class="feature-content">
+                        <h3><span class="step-num">02</span> Real-time AI Analysis</h3>
+                        <p>Powered by Google Gemini 2.5 Flash, receiving direct, structured answers and interactive roadmaps in seconds.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item glass">
+                    <div class="feature-content">
+                        <h3><span class="step-num">03</span> Premium Glassmorphism UI</h3>
+                        <p>A beautiful, fully responsive design with immersive dark mode, abstract floating orbs, and dynamic animations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </main>
 
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <!-- Footer -->
+    <footer class="glass no-print" style="padding: 2.5rem 5%; text-align: center; border-radius: 24px 24px 0 0; border-bottom: none; border-left: none; border-right: none; box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.25);">
+        <p style="color: var(--text-muted); font-size: 0.95rem; font-weight: 500;">
+            FutureMe &copy; 2026 | Powered by Gemini 2.5 Flash &amp; Google
+        </p>
+    </footer>
+
 </body>
 </html>

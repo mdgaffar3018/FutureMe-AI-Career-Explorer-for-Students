@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Explorer Quiz | FutureMe</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <nav class="navbar glass">
+        <div class="logo" onclick="window.location.href='/'">
+            <i class="fa-solid fa-compass"></i>
+            <span>FutureMe</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="btn btn-outline btn-sm"><i class="fa-solid fa-arrow-left"></i> Home</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="dashboard-container slide-up" style="max-width: 800px; padding: 4rem 5%;">
+        
+        <!-- Background Effects -->
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        
+        <!-- Assessment Section -->
+        <section id="assessment-section" class="assessment">
+            
+            <!-- Progress Bar -->
+            <div class="progress-container glass" style="margin-bottom: 2.5rem;">
+                <div class="progress-bar" id="progress-bar" style="width: 20%;"></div>
+                <div class="progress-text">Step <span id="current-step-display">1</span> of 5</div>
+            </div>
+            
+            <div class="quiz-container glass-card" style="padding: 3rem;">
+                
+                <!-- Step 1: Interests -->
+                <div class="quiz-step active" id="step-1">
+                    <h2>What makes you curious?</h2>
+                    <p class="subtitle">Select up to 3 fields that you genuinely enjoy learning about.</p>
+                    
+                    <div class="options-grid" id="interests-grid">
+                        <div class="option-card" data-value="Technology & Coding">
+                            <i class="fa-solid fa-laptop-code"></i>
+                            <span>Tech &amp; Coding</span>
+                        </div>
+                        <div class="option-card" data-value="Art & Design">
+                            <i class="fa-solid fa-palette"></i>
+                            <span>Art &amp; Design</span>
+                        </div>
+                        <div class="option-card" data-value="Science & Healthcare">
+                            <i class="fa-solid fa-flask-vial"></i>
+                            <span>Science &amp; Health</span>
+                        </div>
+                        <div class="option-card" data-value="Business & Finance">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Business &amp; Finance</span>
+                        </div>
+                        <div class="option-card" data-value="Social Work & Teaching">
+                            <i class="fa-solid fa-hands-holding-child"></i>
+                            <span>Social &amp; Teaching</span>
+                        </div>
+                        <div class="option-card" data-value="Writing & Media">
+                            <i class="fa-solid fa-pen-nib"></i>
+                            <span>Writing &amp; Media</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="btn btn-primary" onclick="nextStep(1)">
+                            Next Step <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Strengths -->
+                <div class="quiz-step hidden" id="step-2">
+                    <h2>Where do you shine?</h2>
+                    <p class="subtitle">Select up to 3 qualities that friends or teachers value in you.</p>
+                    
+                    <div class="options-grid" id="strengths-grid">
+                        <div class="option-card" data-value="Problem Solving">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                            <span>Problem Solving</span>
+                        </div>
+                        <div class="option-card" data-value="Creative Thinking">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>Creative Thinking</span>
+                        </div>
+                        <div class="option-card" data-value="Leadership">
+                            <i class="fa-solid fa-users-gear"></i>
+                            <span>Leadership</span>
+                        </div>
+                        <div class="option-card" data-value="Communication">
+                            <i class="fa-solid fa-comments"></i>
+                            <span>Communication</span>
+                        </div>
+                        <div class="option-card" data-value="Attention to Detail">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <span>Detail-Oriented</span>
+                        </div>
+                        <div class="option-card" data-value="Empathy & Listening">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            <span>Empathy &amp; Listening</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions split">
+                        <button class="btn btn-outline" onclick="prevStep(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-primary" onclick="nextStep(2)">
+                            Next Step <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Work Style -->
+                <div class="quiz-step hidden" id="step-3">
+                    <h2>What's your perfect work setting?</h2>
+                    <p class="subtitle">Select the one work style environment that suits you best.</p>
+                    
+                    <div class="options-grid single-select" id="work-style-grid">
+                        <div class="option-card" data-value="Remote & Independent">
+                            <i class="fa-solid fa-house-laptop"></i>
+                            <span>Remote &amp; Independent</span>
+                        </div>
+                        <div class="option-card" data-value="Collaborative Teamwork">
+                            <i class="fa-solid fa-people-group"></i>
+                            <span>Collaborative Team</span>
+                        </div>
+                        <div class="option-card" data-value="Fast-Paced Startup">
+                            <i class="fa-solid fa-rocket"></i>
+                            <span>Fast Startup</span>
+                        </div>
+                        <div class="option-card" data-value="Structured Corporate">
+                            <i class="fa-solid fa-building"></i>
+                            <span>Structured Corporate</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions split">
+                        <button class="btn btn-outline" onclick="prevStep(3)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-primary" onclick="nextStep(3)">
+                            Next Step <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Core Values -->
+                <div class="quiz-step hidden" id="step-4">
+                    <h2>What matters most to you?</h2>
+                    <p class="subtitle">Select up to 2 values that direct your daily decisions.</p>
+                    
+                    <div class="options-grid" id="values-grid">
+                        <div class="option-card" data-value="Helping People">
+                            <i class="fa-solid fa-handshake-angle"></i>
+                            <span>Helping People</span>
+                        </div>
+                        <div class="option-card" data-value="High Income Potential">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                            <span>High Earnings</span>
+                        </div>
+                        <div class="option-card" data-value="Job Stability">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Job Stability</span>
+                        </div>
+                        <div class="option-card" data-value="Creative Freedom">
+                            <i class="fa-solid fa-palette"></i>
+                            <span>Creative Freedom</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions split">
+                        <button class="btn btn-outline" onclick="prevStep(4)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-primary" onclick="nextStep(4)">
+                            Next Step <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Education & Skills -->
+                <div class="quiz-step hidden" id="step-5">
+                    <h2>Tell us about your background</h2>
+                    <p class="subtitle">Select your education level and list any existing skills</p>
+                    
+                    <div class="education-skills-container">
+                        <div class="input-group">
+                            <label class="input-label">Current Education / Career Stage</label>
+                            <div class="options-grid single-select" id="education-grid" style="margin-top: 1rem;">
+                                <div class="option-card" data-value="High School">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                    <span>High School Student</span>
+                                </div>
+                                <div class="option-card" data-value="College / Undergrad">
+                                    <i class="fa-solid fa-university"></i>
+                                    <span>University / Undergrad</span>
+                                </div>
+                                <div class="option-card" data-value="Career Changer">
+                                    <i class="fa-solid fa-arrows-spin"></i>
+                                    <span>Career Changer</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group" style="margin-top: 2rem;">
+                            <label for="existing-skills-input" class="input-label">Existing Skills or Hobbies (Comma separated)</label>
+                            <input type="text" id="existing-skills-input" placeholder="e.g. Python, drawing, math, public speaking" class="glass-input">
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions split">
+                        <button class="btn btn-outline" onclick="prevStep(5)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-primary btn-glow" onclick="submitAssessment()">
+                            Generate Dashboard <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Loading Overlay (Visible during API call) -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="loader-content">
+                <div class="spinner"></div>
+                <h2 class="gradient-text">AI is Architecting Your Future...</h2>
+                <p id="loading-text">Analyzing interests and strengths...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass no-print" style="padding: 2.5rem 5%; text-align: center; border-radius: 24px 24px 0 0; border-bottom: none; border-left: none; border-right: none; margin-top: 5rem; box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.25);">
+        <p style="color: var(--text-muted); font-size: 0.95rem; font-weight: 500;">
+            FutureMe &copy; 2026 | Powered by Gemini 2.5 Flash &amp; Google
+        </p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+</body>
+</html>

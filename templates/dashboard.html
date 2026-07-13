@@ -1,61 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Future Dashboard | FutureMe</title>
-
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body class="dashboard-body">
-
+    
     <!-- Navigation -->
-    <nav class="navbar glass">
-        <div class="logo">
+    <nav class="navbar glass no-print">
+        <div class="logo" onclick="window.location.href='/'">
             <i class="fa-solid fa-compass"></i>
             <span>FutureMe</span>
         </div>
         <div class="nav-links">
-            <a href="/" class="btn btn-outline btn-sm"><i class="fa-solid fa-rotate-left"></i> Retake Assessment</a>
+            <a href="/quiz" class="btn btn-outline btn-sm"><i class="fa-solid fa-rotate-left"></i> Retake Assessment</a>
         </div>
     </nav>
 
-    <!-- Background Effects -->
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-
+    <!-- Main Container -->
     <main class="dashboard-container slide-up">
-
-        <header class="dashboard-header">
+        
+        <!-- Background Effects -->
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        
+        <header class="dashboard-header" style="margin-bottom: 4rem;">
             <h1 class="gradient-text">Your Tailored Career Paths</h1>
-            <p>Based on our AI analysis of your unique profile, here are the top 3 careers where you would thrive,
-                complete with actionable roadmaps.</p>
+            <p>Based on our AI analysis of your unique profile, here are the top 3 careers where you would thrive, complete with actionable roadmaps.</p>
+            <div class="header-actions no-print" style="margin-top: 2rem;">
+                <button class="btn btn-primary btn-glow" onclick="window.print()">
+                    <i class="fa-solid fa-file-pdf"></i> Export Career Report (PDF)
+                </button>
+            </div>
         </header>
 
         <!-- Container for dynamically injected AI results -->
         <div id="results-container" class="careers-grid">
-            <!-- Results will be injected here by app.js -->
+            <!-- Results will be injected here by dashboard.js -->
         </div>
 
         <!-- Error State (Hidden by default) -->
-        <div id="error-container" class="error-container glass-card hidden">
+        <div id="error-container" class="error-container glass-card hidden no-print">
             <i class="fa-solid fa-triangle-exclamation error-icon"></i>
             <h2>Oops! Something went wrong.</h2>
             <p id="error-message">We couldn't generate your recommendations. Please try again.</p>
-            <a href="/" class="btn btn-primary">Go Back</a>
+            <a href="/quiz" class="btn btn-primary">Go Back</a>
         </div>
 
     </main>
@@ -63,103 +64,85 @@
     <!-- Template for a Career Card (Hidden, used by JS for cloning) -->
     <template id="career-card-template">
         <div class="career-card glass-card">
+            <!-- Card Header -->
             <div class="card-header-flex">
                 <h2 class="career-title"></h2>
-                <div class="match-score-badge"><i class="fa-solid fa-fire"></i> <span class="score-value"></span></div>
+                <div class="match-meter-container">
+                    <div class="conic-meter">
+                        <div class="conic-meter-inner">
+                            <span class="score-value"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <!-- Career Description -->
             <p class="career-description"></p>
 
+            <!-- Metrics Grid (Salary, Outlook, Path) -->
+            <div class="career-metrics-grid">
+                <div class="metric-item">
+                    <i class="fa-solid fa-sack-dollar metric-icon"></i>
+                    <div class="metric-meta">
+                        <span class="metric-label">Est. Salary</span>
+                        <span class="metric-value career-salary"></span>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <i class="fa-solid fa-chart-line metric-icon"></i>
+                    <div class="metric-meta">
+                        <span class="metric-label">Job Outlook</span>
+                        <span class="metric-value career-outlook"></span>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <i class="fa-solid fa-graduation-cap metric-icon"></i>
+                    <div class="metric-meta">
+                        <span class="metric-label">Education Path</span>
+                        <span class="metric-value career-education"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Required Skills Section -->
+            <div class="skills-section">
+                <h3><i class="fa-solid fa-brain"></i> Recommended Skills</h3>
+                <div class="skills-tag-cloud">
+                    <!-- Badges injected here dynamically -->
+                </div>
+            </div>
+
+            <!-- Roadmap Section -->
             <div class="roadmap-section">
-                <h3><i class="fa-solid fa-route"></i> Your Roadmap</h3>
+                <h3><i class="fa-solid fa-route"></i> Interactive Roadmap</h3>
+                <p class="roadmap-hint no-print">Tick off steps as you complete them to track your progress.</p>
                 <ul class="roadmap-list">
                     <!-- Steps injected here -->
                 </ul>
             </div>
 
-            <div class="card-footer">
-                <a href="#" class="btn btn-outline btn-full">Explore Resources <i
-                        class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <!-- Actions Footer -->
+            <div class="card-actions-flex no-print">
+                <a href="#" class="btn btn-outline btn-sm explore-link" target="_blank" rel="noopener noreferrer">
+                    Guide <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+                <a href="#" class="btn btn-outline btn-sm search-jobs-link" target="_blank" rel="noopener noreferrer">
+                    Find Jobs <i class="fa-solid fa-briefcase"></i>
+                </a>
+                <a href="#" class="btn btn-outline btn-sm search-courses-link" target="_blank" rel="noopener noreferrer">
+                    Learn <i class="fa-solid fa-graduation-cap"></i>
+                </a>
             </div>
         </div>
     </template>
 
-    <script>
-        // Inline script to handle Dashboard population upon loading
-        document.addEventListener('DOMContentLoaded', () => {
-            const resultsContainer = document.getElementById('results-container');
-            const errorContainer = document.getElementById('error-container');
-            const errorMessage = document.getElementById('error-message');
-            const template = document.getElementById('career-card-template');
+    <!-- Footer -->
+    <footer class="glass no-print" style="padding: 2.5rem 5%; text-align: center; border-radius: 24px 24px 0 0; border-bottom: none; border-left: none; border-right: none; margin-top: 5rem; box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.25);">
+        <p style="color: var(--text-muted); font-size: 0.95rem; font-weight: 500;">
+            FutureMe &copy; 2026 | Powered by Gemini 2.5 Flash &amp; Google
+        </p>
+    </footer>
 
-            // Retrieve AI analysis from sessionStorage
-            const analysisDataStr = sessionStorage.getItem('futureMe_ai_analysis');
-
-            if (!analysisDataStr) {
-                // If there's no data, show an error and prompt them to take the quiz
-                errorContainer.classList.remove('hidden');
-                errorMessage.innerText = "No career data found. Please complete the assessment first.";
-                return;
-            }
-
-            try {
-                const results = JSON.parse(analysisDataStr);
-
-                // Clear the container
-                resultsContainer.innerHTML = '';
-
-                // Check if results is an array (expected format from AI)
-                if (Array.isArray(results)) {
-                    results.forEach((career, index) => {
-                        const clone = template.content.cloneNode(true);
-
-                        // Populate Data
-                        clone.querySelector('.career-title').textContent = career.title;
-                        clone.querySelector('.score-value').textContent = career.match_score || "95%";
-                        clone.querySelector('.career-description').textContent = career.description;
-
-                        const ul = clone.querySelector('.roadmap-list');
-                        if (career.roadmap && Array.isArray(career.roadmap)) {
-                            career.roadmap.forEach((step, stepIdx) => {
-                                const li = document.createElement('li');
-                                // Create the step node visually
-                                li.innerHTML = `
-                                    <div class="step-node">${stepIdx + 1}</div>
-                                    <div class="step-content">${step}</div>
-                                `;
-                                ul.appendChild(li);
-                            });
-                        }
-
-                        // Set the dynamic Explore Resources link
-                        const exploreBtn = clone.querySelector('.btn-full');
-                        if (career.resource_link) {
-                            exploreBtn.href = career.resource_link;
-                            exploreBtn.target = "_blank"; // Open in new tab
-                            exploreBtn.rel = "noopener noreferrer"; // Security best practice
-                        } else {
-                            // Fallback if the AI fails to generate a link
-                            exploreBtn.href = `https://www.google.com/search?q=how+to+become+a+${encodeURIComponent(career.title)}`;
-                            exploreBtn.target = "_blank";
-                        }
-
-                        resultsContainer.appendChild(clone);
-                    });
-                } else if (results.error) {
-                    // The backend returned an error JSON
-                    errorContainer.classList.remove('hidden');
-                    errorMessage.innerText = results.error;
-                } else {
-                    throw new Error("Unexpected data format returned from AI.");
-                }
-
-            } catch (error) {
-                console.error("Error parsing analysis data:", error);
-                errorContainer.classList.remove('hidden');
-                errorMessage.innerText = "There was a problem preparing your dashboard. Please try taking the quiz again. Error: " + error.message;
-            }
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
-
 </html>
