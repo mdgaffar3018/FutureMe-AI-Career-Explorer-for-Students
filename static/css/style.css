@@ -38,6 +38,32 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Premium Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-darker);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 10px;
+    border: 2px solid var(--bg-darker);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-pink);
+}
+
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
@@ -749,7 +775,7 @@ main {
 .dashboard-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 3rem 5%;
+    padding: 140px 5% 4rem 5%;
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 100px);
@@ -977,62 +1003,75 @@ main {
     transition: opacity 0.3s ease;
 }
 
-.step-checkbox {
-    position: relative;
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-    margin-top: 2px;
-}
-
-.step-checkbox input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
+/* Premium Custom Checkbox for Roadmap Items */
+.roadmap-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
     cursor: pointer;
-    height: 0; width: 0;
-}
-
-.step-checkbox label {
-    position: absolute;
-    top: 0; left: 0;
-    height: 22px; width: 22px;
-    background-color: rgba(255, 255, 255, 0.03);
-    border: 2px solid var(--border-card);
-    border-radius: 6px;
-    cursor: pointer;
+    width: 100%;
     transition: var(--transition-fast);
 }
 
-.step-checkbox input[type="checkbox"]:checked ~ label {
-    background-color: var(--accent-secondary);
-    border-color: var(--accent-secondary);
-    box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+.roadmap-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
 }
 
-.step-checkbox label::after {
+.custom-checkbox {
+    width: 22px;
+    height: 22px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 2px solid var(--border-card);
+    border-radius: 6px;
+    flex-shrink: 0;
+    position: relative;
+    transition: var(--transition-fast);
+    margin-top: 2px;
+}
+
+.roadmap-item:hover .custom-checkbox {
+    border-color: var(--accent-secondary);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.roadmap-item input[type="checkbox"]:checked ~ .custom-checkbox {
+    background-color: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+}
+
+.custom-checkbox::after {
     content: "";
     position: absolute;
     display: none;
-    left: 7px; top: 3px;
-    width: 5px; height: 10px;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
     border: solid white;
-    border-width: 0 2px 2px 0;
+    border-width: 0 2.5px 2.5px 0;
     transform: rotate(45deg);
 }
 
-.step-checkbox input[type="checkbox"]:checked ~ label::after {
+.roadmap-item input[type="checkbox"]:checked ~ .custom-checkbox::after {
     display: block;
 }
 
-.roadmap-list li.completed .step-content {
-    text-decoration: line-through;
-    opacity: 0.45;
-}
-
-.step-content {
+.step-text {
     font-size: 0.98rem;
     color: var(--text-main);
-    line-height: 1.4;
+    line-height: 1.45;
+    transition: var(--transition-fast);
+}
+
+.roadmap-item.completed .step-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+    opacity: 0.55;
 }
 
 /* Actions Flex Grid */
